@@ -1,15 +1,12 @@
 # Large Language Models Are Zero Shot Time Series Forecasters
 
+## Announcement
+
 This repository contains the code for the paper
 [_Large Language Models Are Zero Shot Time Series Forecasters_](https://arxiv.org/abs/2310.07820)
 by Nate Gruver, Marc Finzi, Shikai Qiu and Andrew Gordon Wilson (NeurIPS 2023).
 
-<figure>
-  <img src="./assets/llmtime_top_fig.png" alt="Image">
-  <figcaption> We propose <em>LLMTime</em>, a method for <em>zero-shot</em> time series forecasting with large language models (LLMs) by encoding numbers as text and sampling possible extrapolations as text completions. LLMTime can outperform many popular timeseries methods without any training on the target dataset (i.e. zero shot). The performance of LLMTime also scales with the power of the underlying base model. However, models that undergo alignment (e.g. RLHF) do not follow the scaling trend. For example, GPT-4 demonstrates inferior performance to GPT-3. </figcaption>
-</figure>
-
-## 🛠 Installation
+## Installation
 Run the following command to install all dependencies in a conda environment named `llmtime`. Change the cuda version for torch if you don't have cuda 11.8. 
 ```
 source install.sh
@@ -30,62 +27,23 @@ Finally, if you have a diffferent OpenAI API base, change it in your `~/.bashrc`
 echo "export OPENAI_API_BASE=<your base url>" >> ~/.bashrc
 ```
 
-## 🚀 Trying out LLMTime
-Want a quick taste of the power of LLMTime? Run the quick demo in the `demo.ipynb` notebook. No GPUs required!
+(Or you can just use our group's api key directly, see the comment line in the demo.ipynb - line 8 & 10)
 
-## 🤖 Plugging in other LLMs
-We currently support GPT-3, GPT-3.5, GPT-4, Mistral, and LLaMA 2. It's easy to plug in other LLMs by simply specifying how to generate text completions from them in `models/llms.py`.
+## demo.ipynb
 
-To run Mistral models, add your mistral api key to `~/.bashrc` with
-```
-echo "export MISTRAL_KEY=<your key>" >> ~/.bashrc
-```
+Hi, this is Group 1 of the course COMP7404 in HKU.
 
-## 💡 Tips 
-Here are some tips for using LLMTime:
-- Performance is not too sensitive to the data scaling hyperparameters `alpha, beta, basic`. A good default is `alpha=0.95, beta=0.3, basic=False`. For data exhibiting symmetry around 0 (e.g. a sine wave), we recommend setting `basic=True` to avoid shifting the data.
-- The recently released `gpt-3.5-turbo-instruct` seems to require a lower temperature (e.g. 0.3) than other models, and tends to not outperform `text-davinci-003` from our limited experiments.
-- Tuning hyperparameters based on validation likelihoods, as done by `get_autotuned_predictions_data`, will often yield better test likelihoods, but won't necessarily yield better samples. 
+Our members include: 
+Chen Hongyi 3036122505
+Jiang Shuhui 3036213251
+TSANG Kwok Keung 3036122361
+Jiang Zhuocheng 3036197641
+Hu Shurui 3036215742
 
-## 📊 Replicating experiments in paper
-Run the following commands to replicate the experiments in the paper. The outputs will be saved in `./outputs/`. You can use `visualize.ipynb` to visualize the results. We also provide precomputed outputs used in the paper in `./precomputed_outputs/`.
-### Darts (Section 4)
-```
-python -m experiments.run_darts
-```
-### Monash (Section 4)
-You can download preprocessing data from [here](https://drive.google.com/file/d/1sKrpWbD3LvLQ_e5lWgX3wJqT50sTd1aZ/view?usp=sharing) or use the following command
-```
-gdown 'https://drive.google.com/uc?id=1sKrpWbD3LvLQ_e5lWgX3wJqT50sTd1aZ'
-```
-Then extract the data (the extracted data will be in `./datasets/monash/`)
-```
-tar -xzvf monash.tar.gz
-```
-Then run the experiment
-```
-python -m experiments.run_monash
-```
-### Synthetic (Section 5)
-```
-python -m experiments.run_synthetic
-```
-### Missing values (Section 6)
-```
-python -m experiments.run_missing
-```
-### Memorization (Appendix B)
-```
-python -m experiments.run_memorization
-```
+Our main working is in demo.ipynb and visualize.ipynb(experiments_visualize.html).
 
-## Citation
-Please cite our work as:
-```bibtex
-@inproceedings{gruver2023llmtime,
-    title={{Large Language Models Are Zero Shot Time Series Forecasters}},
-    author={Nate Gruver, Marc Finzi, Shikai Qiu and Andrew Gordon Wilson},
-    booktitle={Advances in Neural Information Processing Systems},
-    year={2023}
-}
-```
+Before you get started, please make sure you have completed setting up the environment as instructed in the previous section.
+
+You can change the hyperparameters as you wish to see the performance of each model. Besides you can import new model by presetting its hyperparameters and declare its api in the second code cell.
+
+It should be noted that we remove the 'precomputed_outputs' folder(which mainly include the precomputed outputs of all the models on all the datasets from the git repository of the origin paper) due to the size limit of the submitted files. If you want to take a look at them, please refer to the git repository of our project: https://github.com/171860503/7404_project_llmtime.git
